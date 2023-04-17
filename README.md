@@ -1,1 +1,1 @@
-# react-ts-05-movies
+# react-typeScript-movies
