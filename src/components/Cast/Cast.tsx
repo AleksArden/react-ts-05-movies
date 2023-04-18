@@ -1,37 +1,44 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IMAGE_URL } from 'constans/ImageURL';
-import { fetchCastById } from 'services/Movies.services';
+import { fetchMovies } from 'services/Movies.services';
 import { STATUS } from 'constans/Status';
 import { Wrapper, List, Item, Thumb, Name } from './Cast.styled';
 import imageReplace from 'assets/poster/poster-not-found.jpg';
 
+interface ICast {
+   cast_id: string,
+    character: string,
+    name: string,
+     profile_path: string,
+}
+
 const Cast = () => {
-  const [cast, setCast] = useState([]);
+  const [cast, setCast] = useState<ICast[] | []>([]);
   const [status, setStatus] = useState(STATUS.idle);
 
   const { movieId } = useParams();
 
   useEffect(() => {
-    const getCast = async query => {
+    const getCastById = async (movieId: string) => {
       setStatus(STATUS.loading);
       try {
-        const data = await fetchCastById(query);
+        const data = await fetchMovies<ICast[]>({URL: `movie/${movieId}/credits`});
         onResolve(data);
       } catch (error) {
         console.log(error);
         setStatus(STATUS.error);
       }
     };
-    getCast(movieId);
+    getCastById(movieId);
   }, [movieId]);
 
-  const onResolve = data => {
+  const onResolve = (data: ICast[]) => {
     const dataCast = data.map(({ cast_id, character, name, profile_path }) => ({
-      id: cast_id,
-      character,
-      name,
-      image: profile_path,
+     cast_id,
+    character,
+    name,
+     profile_path,
     }));
 
     setCast(dataCast);
@@ -45,10 +52,10 @@ const Cast = () => {
         <p>Not information</p>
       ) : (
         <List>
-          {cast.map(({ id, character, name, image }) => (
-            <Item key={id}>
-              {image ? (
-                <img src={`${IMAGE_URL}` + image} alt={name} width="150" />
+          {cast.map(({ cast_id, character, name, profile_path }) => (
+            <Item key={cast_id}>
+              {profile_path ? (
+                <img src={`${IMAGE_URL}` + profile_path} alt={name} width="150" />
               ) : (
                 <img src={imageReplace} alt="Not poster" width="150" />
               )}

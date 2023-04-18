@@ -1,29 +1,35 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchReviewsById } from 'services/Movies.services';
+import { fetchMovies } from 'services/Movies.services';
 import { STATUS } from 'constans/Status';
 import { Wrapper, Item, List, Content } from './Reviews.styled';
 
+interface IReviews {
+  id: string,
+      author: string,
+      content: string,
+}
+
 const Reviews = () => {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<IReviews[] | []>([]);
   const [status, setStatus] = useState(STATUS.idle);
 
   const { movieId } = useParams();
 
   useEffect(() => {
-    const getReviews = async query => {
+    const getReviewsById = async (movieId: string) => {
       setStatus(STATUS.loading);
       try {
-        const data = await fetchReviewsById(query);
+        const data = await fetchMovies<IReviews[]>({URL: `movie/${movieId}/reviews`});
         onResolve(data);
       } catch (error) {
         console.log(error);
         setStatus(STATUS.error);
       }
     };
-    getReviews(movieId);
+    getReviewsById(movieId);
   }, [movieId]);
-  const onResolve = data => {
+  const onResolve = (data: IReviews[]) => {
     const dataReviews = data.map(({ id, author, content }) => ({
       id,
       author,

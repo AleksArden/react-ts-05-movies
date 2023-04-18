@@ -1,23 +1,22 @@
 import { useState, useEffect } from 'react';
-import { fetchTrendingMovies } from 'services/Movies.services';
+import { fetchMovies } from 'services/Movies.services';
 import TrendingMovies from 'components/TrendingMovies/TrendingMovies';
 import { STATUS } from 'constans/Status';
 import { Wrapper, Title } from './HomePage.styled';
+import { Movie } from 'types/typeMovie';
+import { FetchMovie } from 'types/typeFetchMovie';
 
-interface IMovies {
-  id: string,
-  
-}
+
 
 const HomePage = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie [] | []>([]);
   const [status, setStatus] = useState(STATUS.idle);
 
   useEffect(() => {
     const getMovies = async () => {
       setStatus(STATUS.loading);
       try {
-        const data = await fetchTrendingMovies();
+        const data = await fetchMovies<FetchMovie[]>({URL:`trending/movie/day`});
         onResolve(data);
       } catch (error) {
         console.log(error);
@@ -26,10 +25,10 @@ const HomePage = () => {
     };
     getMovies();
   }, []);
-  const onResolve = data => {
-    const movieTitles = data.map(({ id, original_title }) => ({
+  const onResolve = (data: FetchMovie[]): void => {
+    const movieTitles = data.map(({ id, original_title: title}) => ({
       id,
-      title: original_title,
+      title,
     }));
     setMovies(movieTitles);
     setStatus(STATUS.success);

@@ -6,7 +6,7 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom';
-import { fetchMovieDetailsById } from 'services/Movies.services';
+import { fetchMovies } from 'services/Movies.services';
 import {
   Wrapper,
   Poster,
@@ -22,9 +22,13 @@ import {
 import { IMAGE_URL } from 'constans/ImageURL';
 import { STATUS } from 'constans/Status';
 import imageReplace from 'assets/poster/poster-not-found.jpg';
+import { DetailsMovie } from 'types/typeMovie';
+import { FetchDetailsMovie } from 'types/typeFetchMovie';
+
+
 
 const MovieDetailsPage = () => {
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState<DetailsMovie | null>(null);
   const [status, setStatus] = useState(STATUS.idle);
 
   const navigate = useNavigate();
@@ -32,19 +36,19 @@ const MovieDetailsPage = () => {
   const { movieId } = useParams();
 
   useEffect(() => {
-    const getMovie = async query => {
+    const getMovieDetailsById = async (movieId: string) => {
       setStatus(STATUS.loading);
       try {
-        const data = await fetchMovieDetailsById(query);
+        const data = await fetchMovies<FetchDetailsMovie>({URL:`movie/${movieId}`});
         onResolve(data);
       } catch (error) {
         console.log(error);
         setStatus(STATUS.error);
       }
     };
-    getMovie(movieId);
+    getMovieDetailsById(movieId);
   }, [movieId]);
-  const onResolve = data => {
+  const onResolve = (data: FetchDetailsMovie) => {
     const dataMovie = {
       title: data.original_title,
       releaseDate: new Date(data.release_date).getFullYear(),
