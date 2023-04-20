@@ -1,10 +1,10 @@
 {
   "files": {
     "main.css": "/react-ts-the-best-choose-movies/static/css/main.8cef38b4.css",
-    "main.js": "/react-ts-the-best-choose-movies/static/js/main.edf910ed.js",
-    "static/js/399.25250b4b.chunk.js": "/react-ts-the-best-choose-movies/static/js/399.25250b4b.chunk.js",
+    "main.js": "/react-ts-the-best-choose-movies/static/js/main.83286498.js",
+    "static/js/399.20f99308.chunk.js": "/react-ts-the-best-choose-movies/static/js/399.20f99308.chunk.js",
     "static/js/301.b35ea272.chunk.js": "/react-ts-the-best-choose-movies/static/js/301.b35ea272.chunk.js",
-    "static/js/995.30cfa0c9.chunk.js": "/react-ts-the-best-choose-movies/static/js/995.30cfa0c9.chunk.js",
+    "static/js/995.75df05d1.chunk.js": "/react-ts-the-best-choose-movies/static/js/995.75df05d1.chunk.js",
     "static/js/456.08507df7.chunk.js": "/react-ts-the-best-choose-movies/static/js/456.08507df7.chunk.js",
     "static/js/848.01576acf.chunk.js": "/react-ts-the-best-choose-movies/static/js/848.01576acf.chunk.js",
     "static/js/384.b0428b78.chunk.js": "/react-ts-the-best-choose-movies/static/js/384.b0428b78.chunk.js",
@@ -12,10 +12,10 @@
     "static/media/poster-not-found.jpg": "/react-ts-the-best-choose-movies/static/media/poster-not-found.0a5c47d51136d8a88ebe.jpg",
     "index.html": "/react-ts-the-best-choose-movies/index.html",
     "main.8cef38b4.css.map": "/react-ts-the-best-choose-movies/static/css/main.8cef38b4.css.map",
-    "main.edf910ed.js.map": "/react-ts-the-best-choose-movies/static/js/main.edf910ed.js.map",
-    "399.25250b4b.chunk.js.map": "/react-ts-the-best-choose-movies/static/js/399.25250b4b.chunk.js.map",
+    "main.83286498.js.map": "/react-ts-the-best-choose-movies/static/js/main.83286498.js.map",
+    "399.20f99308.chunk.js.map": "/react-ts-the-best-choose-movies/static/js/399.20f99308.chunk.js.map",
     "301.b35ea272.chunk.js.map": "/react-ts-the-best-choose-movies/static/js/301.b35ea272.chunk.js.map",
-    "995.30cfa0c9.chunk.js.map": "/react-ts-the-best-choose-movies/static/js/995.30cfa0c9.chunk.js.map",
+    "995.75df05d1.chunk.js.map": "/react-ts-the-best-choose-movies/static/js/995.75df05d1.chunk.js.map",
     "456.08507df7.chunk.js.map": "/react-ts-the-best-choose-movies/static/js/456.08507df7.chunk.js.map",
     "848.01576acf.chunk.js.map": "/react-ts-the-best-choose-movies/static/js/848.01576acf.chunk.js.map",
     "384.b0428b78.chunk.js.map": "/react-ts-the-best-choose-movies/static/js/384.b0428b78.chunk.js.map",
@@ -23,6 +23,6 @@
   },
   "entrypoints": [
     "static/css/main.8cef38b4.css",
-    "static/js/main.edf910ed.js"
+    "static/js/main.83286498.js"
   ]
 }
