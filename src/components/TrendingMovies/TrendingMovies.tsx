@@ -8,7 +8,7 @@ interface IProps {
 
 const TrendingMovies = ({ movies }: IProps) => {
   const location = useLocation();
-  console.log(location)
+
   return (
     <ul>
       {movies.map(({ id, title }) => (

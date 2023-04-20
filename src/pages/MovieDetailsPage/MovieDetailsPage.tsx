@@ -31,7 +31,7 @@ const MovieDetailsPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location)
+  
   const { movieId } = useParams<{movieId?: string}>();
 
   useEffect(() => {
