@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { Form, Input, Item, List, Error, Load } from './MoviesPage.styled';
-import { fetchMovies } from 'services/Movies.services';
+import { fetchRequest} from 'services/Movies.services';
 import { STATUS } from 'constans/Status';
 import Notiflix from 'notiflix';
 import { Movie } from 'types/typeMovie';
-import { FetchMovie } from 'types/typeFetchMovie';
+import {  IResponse } from 'types/typeFetchMovie';
 
 Notiflix.Notify.init({
   width: '400px',
@@ -15,15 +15,19 @@ Notiflix.Notify.init({
 });
 
 const MoviesPage = () => {
+  const [value, setValue] = useState('')
   const [status, setStatus] = useState(STATUS.idle);
   const [searchParams, setSearchParams] = useSearchParams();
   const [movies, setMovies] = useState<Movie[] | []>([]);
   const searchName = searchParams.get('query');
   const location = useLocation();
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+const handleChange = ({target: {value}}: React.ChangeEvent<HTMLInputElement>): void => {
+  setValue(value)
+}
+
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-    const { value }= evt.target.elements.search;
     if (value === '') {
       Notiflix.Notify.info('Please, fill in the search field!');
     }
@@ -36,7 +40,7 @@ const MoviesPage = () => {
     const getSearchMovies = async () => {
       setStatus(STATUS.loading);
       try {
-        const data = await fetchMovies<FetchMovie[]>({URL: `search/movie`, searchName });
+        const data = await fetchRequest<IResponse>({URL: `search/movie`,searchName});
         onResolve(data);
       } catch (error) {
         console.log(error);
@@ -46,15 +50,15 @@ const MoviesPage = () => {
     getSearchMovies();
   }, [searchName]);
 
-  const onResolve = (data: FetchMovie[]) => {
-    if (data.length === 0) {
+  const onResolve = ({results}: IResponse) => {
+    if (results.length === 0) {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
       setStatus(STATUS.idle);
       return;
     }
-    const moviesName = data.map(({ id, original_title: title }) => ({
+    const moviesName: Movie[] = results.map(({ id, original_title: title }) => ({
       id,
       title,
     }));
@@ -65,7 +69,7 @@ const MoviesPage = () => {
   return (
     <div>
       <Form onSubmit={handleSubmit}>
-        <Input type="text" autoComplete="off" name="search" />
+        <Input type="text" autoComplete="off" name="search" value={value} onChange={handleChange} />
         <button type="submit">Search</button>
       </Form>
       {status === STATUS.error && <Error>NOT FOUND</Error>}

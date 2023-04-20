@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMovies } from 'services/Movies.services';
+import { fetchRequest } from 'services/Movies.services';
 import { STATUS } from 'constans/Status';
 import { Wrapper, Item, List, Content } from './Reviews.styled';
 
@@ -10,17 +10,22 @@ interface IReviews {
       content: string,
 }
 
+interface IRequestReview {
+  page: number,
+  results: IReviews[]
+}
+
 const Reviews = () => {
   const [reviews, setReviews] = useState<IReviews[] | []>([]);
   const [status, setStatus] = useState(STATUS.idle);
 
-  const { movieId } = useParams();
+  const { movieId } = useParams<{movieId?: string}>();
 
   useEffect(() => {
-    const getReviewsById = async (movieId: string) => {
+    const getReviewsById = async (movieId?: string): Promise<void> => {
       setStatus(STATUS.loading);
       try {
-        const data = await fetchMovies<IReviews[]>({URL: `movie/${movieId}/reviews`});
+        const data = await fetchRequest<IRequestReview>({URL: `movie/${movieId}/reviews`});
         onResolve(data);
       } catch (error) {
         console.log(error);
@@ -29,8 +34,8 @@ const Reviews = () => {
     };
     getReviewsById(movieId);
   }, [movieId]);
-  const onResolve = (data: IReviews[]) => {
-    const dataReviews = data.map(({ id, author, content }) => ({
+  const onResolve = ({results}: IRequestReview): void => {
+    const dataReviews: IReviews[] = results.map(({ id, author, content }) => ({
       id,
       author,
       content,

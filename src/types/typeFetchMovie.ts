@@ -1,3 +1,10 @@
+export interface IResponse {
+  page: number,
+  results: FetchMovie[],
+  total_pages: number,
+  total_results: number,
+}
+
 interface IFetchMovie {
   id: string,
     original_title: string,

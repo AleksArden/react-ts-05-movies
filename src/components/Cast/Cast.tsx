@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IMAGE_URL } from 'constans/ImageURL';
-import { fetchMovies } from 'services/Movies.services';
+import {fetchRequest } from 'services/Movies.services';
 import { STATUS } from 'constans/Status';
 import { Wrapper, List, Item, Thumb, Name } from './Cast.styled';
 import imageReplace from 'assets/poster/poster-not-found.jpg';
@@ -12,18 +12,21 @@ interface ICast {
     name: string,
      profile_path: string,
 }
+interface IRequestCast {
+  cast: ICast[],
+}
 
 const Cast = () => {
   const [cast, setCast] = useState<ICast[] | []>([]);
   const [status, setStatus] = useState(STATUS.idle);
 
-  const { movieId } = useParams();
+  const { movieId } = useParams<{movieId?: string}>();
 
   useEffect(() => {
-    const getCastById = async (movieId: string) => {
+    const getCastById = async (movieId?: string):Promise<void> => {
       setStatus(STATUS.loading);
       try {
-        const data = await fetchMovies<ICast[]>({URL: `movie/${movieId}/credits`});
+        const data = await fetchRequest<IRequestCast>({URL: `movie/${movieId}/credits`});
         onResolve(data);
       } catch (error) {
         console.log(error);
@@ -33,8 +36,8 @@ const Cast = () => {
     getCastById(movieId);
   }, [movieId]);
 
-  const onResolve = (data: ICast[]) => {
-    const dataCast = data.map(({ cast_id, character, name, profile_path }) => ({
+  const onResolve = ({cast}: IRequestCast) => {
+    const dataCast: ICast[] = cast.map(({ cast_id, character, name, profile_path }) => ({
      cast_id,
     character,
     name,
