@@ -31,14 +31,16 @@ const MovieDetailsPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const { movieId } = useParams<{movieId?: string}>();
+
+  const { movieId } = useParams<{ movieId?: string }>();
 
   useEffect(() => {
     const getMovieDetailsById = async (movieId?: string): Promise<void> => {
       setStatus(STATUS.loading);
       try {
-        const data = await fetchRequest<FetchDetailsMovie>({URL:`movie/${movieId}`});
+        const data = await fetchRequest<FetchDetailsMovie>({
+          URL: `movie/${movieId}`,
+        });
         onResolve(data);
       } catch (error) {
         console.log(error);
@@ -86,7 +88,7 @@ const MovieDetailsPage = () => {
                 <h2>{movie.title}</h2>
               )}
               <p>User score {movie.voteAverage}%</p>
-              <b>Overview</b>
+              <b>Overview AAAAAAAAAAAA</b>
               {movie.overview ? (
                 <p>{movie.overview}</p>
               ) : (
